@@ -1,6 +1,23 @@
 from django.contrib import admin
 from django.urls import include, path
-from .views import api_root
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+import os
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    codespace_name = os.environ.get('CODESPACE_NAME')
+    if codespace_name:
+        base_url = f'https://{codespace_name}-8000.app.github.dev/api/'
+    else:
+        base_url = '/api/'
+    return Response({
+        'users': f'{base_url}users/',
+        'teams': f'{base_url}teams/',
+        'activities': f'{base_url}activities/',
+        'workouts': f'{base_url}workouts/',
+        'leaderboard': f'{base_url}leaderboard/',
+    })
 from rest_framework.routers import DefaultRouter
 from .views import UserViewSet, TeamViewSet, ActivityViewSet, WorkoutViewSet, LeaderboardViewSet
 import os
