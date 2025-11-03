@@ -1,11 +1,21 @@
 from django.contrib import admin
-from django.urls import include, path, re_path
-from .views import api_root  # Assuming api_root is defined in views.py
+from django.urls import include, path
+from .views import api_root
+from rest_framework.routers import DefaultRouter
+from .views import UserViewSet, TeamViewSet, ActivityViewSet, WorkoutViewSet, LeaderboardViewSet
+import os
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'teams', TeamViewSet)
+router.register(r'activities', ActivityViewSet)
+router.register(r'workouts', WorkoutViewSet)
+router.register(r'leaderboard', LeaderboardViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^$', api_root, name='api-root'),
-    path('', include(router.urls)),  # Assuming router is defined elsewhere
+    path('api/', api_root, name='api-root'),
+    path('api/', include(router.urls)),
 ]
 """octofit_tracker URL Configuration
 
