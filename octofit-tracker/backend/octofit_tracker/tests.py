@@ -12,7 +12,7 @@ class APITest(TestCase):
         self.activity = Activity.objects.create(user=self.user, type='run', duration=10, distance=1.0)
         self.leaderboard = Leaderboard.objects.create(team=self.team, points=10)
 
-    def test_api_root(self):
+    def test_api_root(self): 
         response = self.client.get(reverse('api-root'))
         self.assertEqual(response.status_code, 200)
 
